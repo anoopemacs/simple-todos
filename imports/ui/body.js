@@ -31,14 +31,8 @@ Template.body.events({
 
     const target = event.target; // target here is the <form>
     const text = target.text.value;
-
-    Tasks.insert({
-      text: text,		// key name here is optional, why?
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      username: Meteor.user().username,
-    });
-
+    Meteor.call('tasks.insert', text);
+    
     target.text.value = '';
     target.text.focus();
   },
