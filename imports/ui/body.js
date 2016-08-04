@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'; // to get the Meteor.userId() ... etc
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
@@ -32,8 +33,10 @@ Template.body.events({
     const text = target.text.value;
 
     Tasks.insert({
-      text,			// why is there no key name here
+      text: text,		// key name here is optional, why?
       createdAt: new Date(),
+      owner: Meteor.userId(),
+      username: Meteor.user().username,
     });
 
     target.text.value = '';
