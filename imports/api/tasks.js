@@ -11,8 +11,8 @@ export const Tasks = new Mongo.Collection('tasks');
 if (Meteor.isServer) {
   Meteor.publish('tasks', function tasksPublication() {
     return Tasks.find({
-      $or: [
-	{ private: { $ne: true } },
+      $or: [			    // or = atleast one of these is true
+	{ private: { $ne: true } }, // ne = not equal 
 	{ owner: this.userId },	// doubt - how does server know what the userId is?
       ],
     });
@@ -39,6 +39,8 @@ Meteor.methods({
   },
   'tasks.remove'(taskId) {
     check(taskId, String);
+
+    const task = Tasks.findOne(taskId); // added by anoop, not in the offcial code
     if (task.private && task.owner !== this.userId) {
       // if task is private make sure only owner can remove it
       throw new Meteor.Error('not-authorized');
@@ -48,6 +50,8 @@ Meteor.methods({
   'tasks.setCheckedToX'(taskId, checkedValueX) {
     check(taskId, String);
     check(checkedValueX, Boolean);
+
+    const task = Tasks.findOne(taskId);
     if (task.private && task.owner !== this.userId) {
       // if task is private make sure only owner can check it off
       throw new Meteor.error('not-authorized');
