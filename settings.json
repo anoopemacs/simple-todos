@@ -1,0 +1,7 @@
+{
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb://anoop:password@ds027425.mlab.com:27425/mlab-test"
+    }
+  }
+}
